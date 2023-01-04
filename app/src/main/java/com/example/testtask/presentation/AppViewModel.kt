@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testtask.domain.DataResponse
 import com.example.testtask.domain.GetDataUseCase
+import com.example.testtask.domain.models.Data
 import com.example.testtask.presentation.states.GetDataResponseState
 import com.example.testtask.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,9 @@ class AppViewModel @Inject constructor(
 
     private val _stateData = mutableStateOf(GetDataResponseState())
     val stateData: State<GetDataResponseState> = _stateData
+
+    private val _selectedData = mutableStateOf(Data(null, null, null, null, null, null,null, null))
+    val selectedData: State<Data> = _selectedData
 
     fun getData(){
         getDataUseCase.invoke().onEach { result: Resource<DataResponse> ->
@@ -45,5 +49,8 @@ class AppViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+    fun updateDetail(data: Data) {
+        _selectedData.value = data
     }
 }
